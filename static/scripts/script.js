@@ -105,7 +105,8 @@ function showModal(index) {
 
     if (!modal) return; // Ensure modal exists
 
-    document.getElementById('modal-image').src = fullImagePath;
+    const modalImage = document.getElementById('modal-image');
+    modalImage.src = fullImagePath;
     document.getElementById('modal-title').textContent = art.title;
     document.getElementById('modal-description').textContent = art.description;
     document.getElementById('modal-type').innerHTML = `<strong>Type:</strong> ${art.type}`;
@@ -118,7 +119,12 @@ function showModal(index) {
     document.getElementById('modal-tags').innerHTML = `<strong>Date:</strong> ${art.created_date}`;
 
     modal.classList.add('active');
+
+    // ✅ Add Click Event for Fullscreen
+    modalImage.addEventListener('click', () => enableFullscreen(modalImage));
 }
+
+
 
 // 🟢 Initialize everything
 document.addEventListener("DOMContentLoaded", () => {
@@ -126,3 +132,31 @@ document.addEventListener("DOMContentLoaded", () => {
     loadFooter();
     loadGallery();
 });
+
+
+
+// 🟢 Enable Fullscreen on Image Click
+function enableFullscreen(imageElement) {
+    if (!document.fullscreenElement) {
+        if (imageElement.requestFullscreen) {
+            imageElement.requestFullscreen();
+        } else if (imageElement.mozRequestFullScreen) { // Firefox
+            imageElement.mozRequestFullScreen();
+        } else if (imageElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            imageElement.webkitRequestFullscreen();
+        } else if (imageElement.msRequestFullscreen) { // IE/Edge
+            imageElement.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+}
+
