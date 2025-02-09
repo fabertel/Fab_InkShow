@@ -1,0 +1,68 @@
+/* Fixed Header */
+.header {
+    background: black;
+    color: white !important;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Pinkend', Arial, sans-serif !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: auto;
+}
+
+/* Title Styling */
+.header h1 {
+    font-family: 'Pinkend', Arial, sans-serif !important;
+    font-size: 48px !important;
+    font-weight: normal !important;
+    color: white !important;
+    margin: 0;
+}
+
+/* Navigation Styling */
+.header nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+}
+
+/* Navigation Links */
+.header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.header nav ul li {
+    display: inline;
+}
+
+/* Make Links Smaller and Light Grey */
+.header nav ul li a {
+    font-family: Verdana, sans-serif !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    color: #bbb !important;
+    text-decoration: none;
+}
+
+.header nav ul li a:hover {
+    color: white !important;
+    text-decoration: underline;
+}
+
+/* Adjust Page Content to Prevent Overlap */
+body {
+    padding-top: 120px; /* Prevent content from hiding under fixed header */
+}

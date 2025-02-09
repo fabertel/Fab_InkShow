@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fab Inkshow</title>
+    <link id="stylesheet" rel="stylesheet" href="/static/styles/style_alpha.css">
+    <link rel="stylesheet" href="/static/styles/global.css">
+    <link rel="icon" href="/static/styles/favicons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<!-- Load Header -->
+<div id="header-container"></div>
+
+<script>
+    async function loadHeader() {
+        const response = await fetch('/static/header.html');
+        const headerHTML = await response.text();
+        document.getElementById('header-container').innerHTML = headerHTML;
+
+        // Wait for the header to load before initializing the theme selector
+        setTimeout(initializeStyleSwitcher, 100);
+    }
+
+
+
+    loadHeader();
+</script>
+
+<div class="gallery"></div>
+
+<!-- ✅ Modal for Image Details (Restored) -->
+<div class="modal">
+    <button class="modal-close">X</button>
+    <div class="modal-content">
+        <img id="modal-image" class="modal-image" src="" alt="">
+        <div class="modal-details">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p id="modal-type"></p>
+            <p id="modal-size"></p>
+            <p id="modal-price"></p>
+            <p id="modal-availability"></p>
+            <p id="modal-category"></p>
+            <p id="modal-medium"></p>
+            <p id="modal-tags"></p>
+            <p id="modal-style"></p>
+            <p id="modal-color-style"></p>
+            <p id="modal-emotions"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentIndex = 0;
+    let artworks = [];
+
+    async function loadGallery() {
+        const response = await fetch('/static/data.json');
+        artworks = await response.json();
+        const gallery = document.querySelector('.gallery');
+
+        artworks.forEach((art, index) => {
+            const thumbnailPath = art.src.replace('images/', 'static/images/thumbnails/').replace(/(\.\w+)$/, '_TH$1');
+            const imgElement = document.createElement('img');
+            imgElement.src = thumbnailPath;
+            imgElement.alt = art.title;
+            imgElement.dataset.index = index;
+            gallery.appendChild(imgElement);
+        });
+
+        setupModal();
+    }
+
+    function setupModal() {
+        const modal = document.querySelector('.modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalType = document.getElementById('modal-type');
+        const modalSize = document.getElementById('modal-size');
+        const modalPrice = document.getElementById('modal-price');
+        const modalAvailability = document.getElementById('modal-availability');
+        const modalCategory = document.getElementById('modal-category');
+        const modalMedium = document.getElementById('modal-medium');
+        const modalTags = document.getElementById('modal-tags');
+        const modalStyle = document.getElementById('modal-style');
+        const modalColorStyle = document.getElementById('modal-color-style');
+        const modalEmotions = document.getElementById('modal-emotions');
+        const modalClose = document.querySelector('.modal-close');
+
+        document.querySelector('.gallery').addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                currentIndex = parseInt(e.target.dataset.index, 10);
+                showModal(currentIndex);
+            }
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modal.classList.remove('active');
+            } else if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : artworks.length - 1;
+                showModal(currentIndex);
+            } else if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex < artworks.length - 1) ? currentIndex + 1 : 0;
+                showModal(currentIndex);
+            }
+        });
+
+        function showModal(index) {
+            const art = artworks[index];
+            const fullImagePath = art.src.startsWith("images/") ? "static/" + art.src : art.src;
+            modal.style.display = "flex"; // ✅ Show modal
+            modalImage.src = fullImagePath;
+            modalTitle.textContent = art.title;
+            modalDescription.textContent = art.description;
+            modalType.innerHTML = `<strong>Type:</strong> ${art.type}`;
+            modalSize.innerHTML = `<strong>Size:</strong> ${art.size}`;
+            modalPrice.innerHTML = `<strong>Price:</strong> ${art.price}`;
+            modalAvailability.innerHTML = `<strong>Availability:</strong> ${art.availability}`;
+            modalCategory.innerHTML = `<strong>Category:</strong> ${art.category}`;
+            modalMedium.innerHTML = `<strong>Medium:</strong> ${art.medium}`;
+            modalTags.innerHTML = `<strong>Tags:</strong> ${art.tags}`;
+            modalTags.innerHTML = `<strong>Date:</strong> ${art.created_date}`;
+            // modalStyle.innerHTML = `<strong>Style:</strong> ${art.Style}`;
+            // modalColorStyle.innerHTML = `<strong>Color Style:</strong> ${art['Color Style']}`;
+            // modalEmotions.innerHTML = `<strong>Emotions:</strong> ${art.Emotions}`;
+            modal.classList.add('active');
+        }
+    }
+
+    loadGallery();
+</script>
+
+<!-- Load Footer -->
+<div id="footer-container"></div>
+
+<script>
+    async function loadFooter() {
+        const response = await fetch('/static/footer.html');
+        const footerHTML = await response.text();
+        document.getElementById('footer-container').innerHTML = footerHTML;
+    }
+    loadFooter();
+</script>
+
+
+</body>
+</html>

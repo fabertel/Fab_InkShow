@@ -1,0 +1,26 @@
+/* Load Custom Fonts */
+@font-face {
+    font-family: 'Pinkend';
+    src: url('/static/fonts/Pinkend.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Simple Print';
+    src: url('/static/fonts/Antonio-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply Pinkend to Titles */
+h1, h2 ,h3 {
+    font-family: 'Pinkend', Arial, sans-serif !important;
+}
+
+/* Apply Simple Print as Default Font for All Other Text */
+body, p, a, ul, li, span, button, input, textarea {
+    font-family: Verdana, Arial, sans-serif !important;
+    font-size: 16px;
+    color: #333;
+}

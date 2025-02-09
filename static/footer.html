@@ -1,0 +1,56 @@
+
+<div class="footer">
+    <h2>Fab Inkshow</h2>
+    <nav>
+        <ul>
+            <li><a href="https://wa.me/+39389284536" target="_blank">WhatsApp</a></li>
+            <li><a href="https://www.instagram.com/fabertellot" target="_blank">Instagram</a></li>
+        </ul>
+    </nav>
+
+    <!-- Theme Selector Pulldown Menu -->
+    <div class="theme-switcher">
+        <label for="theme-select">Theme:</label>
+        <select id="theme-select">
+            <option value="/static/styles/style_alpha.css">Style 1</option>
+            <option value="/static/styles/style_beta.css">Style 2</option>
+        </select>
+    </div>
+</div>
+
+<!-- Load Styles -->
+<link rel="stylesheet" href="/static/styles/global.css">
+<link rel="stylesheet" href="/static/styles/footer.css">
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("🔹 JavaScript Loaded - Footer Theme Selector Initialized");
+
+        const stylesheet = document.getElementById("stylesheet");
+        const themeSelect = document.getElementById("theme-select");
+
+        if (!stylesheet || !themeSelect) {
+            console.error("❌ Stylesheet or Theme Selector NOT FOUND!");
+            return;
+        }
+
+        function applySavedStyle() {
+            const savedStyle = localStorage.getItem("selectedStyle") || "/static/styles/style_alpha.css";
+            console.log("✅ Applying saved style:", savedStyle);
+            stylesheet.href = savedStyle;
+            themeSelect.value = savedStyle;
+        }
+
+        function setTheme(theme) {
+            console.log("🔄 Switching to:", theme);
+            stylesheet.href = theme;
+            localStorage.setItem("selectedStyle", theme);
+        }
+
+        themeSelect.addEventListener("change", function () {
+            setTheme(this.value);
+        });
+
+        applySavedStyle();
+    });
+</script>

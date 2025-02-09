@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fab Inkshow</title>
+    <link id="stylesheet" rel="stylesheet" href="/static/styles/style_alpha.css">
+    <link rel="stylesheet" href="/static/styles/global.css">
+    <link rel="stylesheet" href="/static/styles/page.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- Markdown Parser -->
+</head>
+<body>
+
+<!-- Load Header -->
+<div id="header-container"></div>
+
+<!-- Markdown Content -->
+<div class="container">
+    <div class="content" id="content">
+        <p>Loading content...</p>
+    </div>
+</div>
+
+<script>
+    async function loadHeader() {
+        const response = await fetch('/static/header.html');
+        const headerHTML = await response.text();
+        document.getElementById('header-container').innerHTML = headerHTML;
+    }
+    loadHeader();
+
+    async function loadMarkdown() {
+        const params = new URLSearchParams(window.location.search);
+        const mdFile = params.get("md") || "about";  
+
+        // Fetch from /static/markdown/ instead of /static/pages/
+        const response = await fetch(`/static/markdown/${mdFile}.md`);
+        
+        if (response.ok) {
+            const markdownText = await response.text();
+            document.getElementById("content").innerHTML = marked.parse(markdownText);
+            attachEventListeners(); // Attach event listener after loading markdown
+        } else {
+            document.getElementById("content").innerHTML = "<p>Page not found.</p>";
+        }
+    }
+    loadMarkdown();
+
+    function attachEventListeners() {
+        const regenButton = document.getElementById("regen-json");
+        if (regenButton) {
+            regenButton.addEventListener("click", async function () {
+                regenButton.textContent = "Updating...";
+                regenButton.disabled = true;
+
+                try {
+                    const response = await fetch("/regenerate-json", { method: "POST" });
+                    const result = await response.json();
+                    alert(result.message);
+                } catch (error) {
+                    alert("Error regenerating JSON.");
+                    console.error(error);
+                }
+
+                regenButton.textContent = "Regenerate JSON";
+                regenButton.disabled = false;
+            });
+        }
+    }
+</script>
+
+<!-- Load Footer -->
+<div id="footer-container"></div>
+
+<script>
+    async function loadFooter() {
+        const response = await fetch('/static/footer.html');
+        const footerHTML = await response.text();
+        document.getElementById('footer-container').innerHTML = footerHTML;
+    }
+    loadFooter();
+</script>
+
+</body>
+</html>
