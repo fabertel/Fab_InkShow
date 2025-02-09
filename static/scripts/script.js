@@ -109,14 +109,13 @@ function showModal(index) {
     modalImage.src = fullImagePath;
     document.getElementById('modal-title').textContent = art.title;
     document.getElementById('modal-description').textContent = art.description;
-    document.getElementById('modal-type').innerHTML = `<strong>Type:</strong> ${art.type}`;
     document.getElementById('modal-size').innerHTML = `<strong>Size:</strong> ${art.size}`;
     document.getElementById('modal-price').innerHTML = `<strong>Price:</strong> ${art.price}`;
     document.getElementById('modal-availability').innerHTML = `<strong>Availability:</strong> ${art.availability}`;
     document.getElementById('modal-category').innerHTML = `<strong>Category:</strong> ${art.category}`;
     document.getElementById('modal-medium').innerHTML = `<strong>Medium:</strong> ${art.medium}`;
     document.getElementById('modal-tags').innerHTML = `<strong>Tags:</strong> ${art.tags}`;
-    document.getElementById('modal-tags').innerHTML = `<strong>Date:</strong> ${art.created_date}`;
+    document.getElementById('modal-date').innerHTML = `<strong>Date:</strong> ${art.created_date}`;
 
     modal.classList.add('active');
 
