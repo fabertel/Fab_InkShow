@@ -4,11 +4,6 @@ Vuoi metterti in contatto con me? **Scrivimi!** 💌
 
 ---
 
-## 📧 Email & Social
-- 📬 **Email**: [info@fabinkshow.com](mailto:info@fabinkshow.com)
-- 🖼️ **Instagram**: [@fabinkshow](https://www.instagram.com/fabinkshow)
-- 🐦 **Twitter**: [@fabinkshow_art](https://twitter.com/fabinkshow_art)
-
 ---
 
 ## 📍 Dove Trovarmi?
