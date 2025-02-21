@@ -36,6 +36,9 @@ def home():
     with open(os.path.join(STATIC_DIR, "index.html"), "r", encoding="utf-8") as f:
         return HTMLResponse(content=f.read())
 
+@app.head("/")
+async def head_root():
+    return {}
 
 # Route to serve dynamic markdown content in page.html
 @app.get("/markdown/{page}", response_class=HTMLResponse)
