@@ -66,3 +66,14 @@
 body {
     padding-top: 120px; /* Prevent content from hiding under fixed header */
 }
+
+
+.logo-link {
+    color: white !important;
+    text-decoration: none;
+    font-size: 48px !important;
+    font-family: 'Pinkend', Arial, sans-serif !important;
+}
+.logo-link:hover {
+    text-decoration: underline;
+}

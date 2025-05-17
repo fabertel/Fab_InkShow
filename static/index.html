@@ -4,44 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fab Inkshow</title>
-    <link id="stylesheet" rel="stylesheet" href="/static/styles/style_beta.css">
-    <link rel="stylesheet" href="/static/styles/global.css">
+    <link rel="stylesheet" href="/static/styles/home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="/static/styles/favicons/favicon.ico" type="image/x-icon">
+    <meta name="description" content="FAB INKSHOW – A gallery of weird, colorful and surreal illustrations. Digital and traditional artworks by Fab.">
+    <meta name="keywords" content="art, illustration, gallery, digital, traditional, fab inkshow">
+    <meta name="author" content="Fabio Bertellotti">
+    <meta property="og:title" content="FAB INKSHOW" />
+    <meta property="og:description" content="Explore surreal and colorful illustrations by Fabio in digital and traditional form." />
+    <meta property="og:image" content="/static/images/hero1.jpg" />
+    <meta property="og:type" content="website" />
+
 </head>
 <body>
 
-<!-- Load Header -->
+<!-- Header -->
 <div id="header-container"></div>
 
-<div class="gallery"></div>
+<!-- Hero Section -->
+<section class="hero">
 
-<!-- ✅ Modal for Image Details -->
-<div class="modal">
-    <div class="modal-content">
-        <img id="modal-image" class="modal-image" src="" alt="">
-        <div class="modal-details">
-            <h3 id="modal-title"></h3>
-            <p id="modal-description"></p>
-            <p id="modal-size"></p>
-            <p id="modal-price"></p>
-            <p id="modal-availability"></p>
-            <p id="modal-category"></p>
-            <p id="modal-medium"></p>
-            <p id="modal-tags"></p>
-            <p id="modal-date"></p>
-            <!-- <p id="modal-style"></p>
-            <p id="modal-color-style"></p>
-            <p id="modal-emotions"></p> -->
+    <img src="/static/images/feline and canine mosaic.jpg" class="hero-slide active">    
+    <img src="/static/images/ScanImage44.jpg" class="hero-slide">
+    <img src="/static/images/ScanImage48-2.jpg" class="hero-slide">
+    <img src="/static/images/ScanImage32.jpg" class="hero-slide">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>FAB INKSHOW</h1>
+        <h2 class="hero-subtitle">Fabio Bertellotti</h2>
+        <div class="btn-container">
+
+        <a href="/gallery/trad" class="btn btn-custom">🖌️ Traditional Gallery</a>
+        <a href="/gallery/digi" class="btn btn-custom">💻 Digital Gallery</a>
         </div>
-        <button class="modal-close">Close</button> <!-- ✅ Added close button -->
-    </div>
-</div>
 
-<!-- Load Footer -->
+
+    </div>
+</section>
+
+<!-- Footer -->
 <div id="footer-container"></div>
 
-<!-- ✅ External JS -->
-<script src="/static/scripts/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Carica header e footer
+    async function loadHeader() {
+        const response = await fetch('/static/header.html');
+        document.getElementById('header-container').innerHTML = await response.text();
+    }
+    async function loadFooter() {
+        const response = await fetch('/static/footer.html');
+        document.getElementById('footer-container').innerHTML = await response.text();
+    }
+    loadHeader();
+    loadFooter();
 
+    // Slide transition
+    const slides = document.querySelectorAll('.hero-slide');
+    let index = 0;
+    setInterval(() => {
+        slides[index].classList.remove('active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('active');
+    }, 6000);
+</script>
 </body>
 </html>

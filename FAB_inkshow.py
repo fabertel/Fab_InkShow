@@ -5,15 +5,20 @@ from fastapi.responses import JSONResponse  # ✅ Import JSONResponse
 import subprocess  # ✅ Import subprocess to run the script
 import markdown
 import os
+from fastapi import Request
 
 app = FastAPI()
 
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
+
 MARKDOWN_DIR = os.path.join(STATIC_DIR, "markdown")
 script_path = os.path.join(os.path.dirname(__file__), "xls to json.py")
 json_file_path = os.path.join(os.path.dirname(__file__), "static", "data.json")
+
+SECRET_TOKEN = "jU5fXcOHrgjmtEZ4G8JaNJaf6Sd34tSFeiAZfYLFYuTI"  
+
 
 
 # Serve static files
@@ -40,10 +45,21 @@ def home():
 async def head_root():
     return {}
 
+
+
 # Route to serve dynamic markdown content in page.html
+
+
 @app.get("/markdown/{page}", response_class=HTMLResponse)
-def get_markdown(page: str):
+def get_markdown(page: str, request: Request):
+    if page == "admin":
+        token = request.query_params.get("token")
+        if token != SECRET_TOKEN:
+            raise HTTPException(status_code=403, detail="Forbidden")
     return load_markdown(page)
+
+
+
 
 # Serve the generic page.html
 @app.get("/page", response_class=HTMLResponse)
@@ -51,7 +67,10 @@ def get_page():
     with open(os.path.join(STATIC_DIR, "page.html"), "r", encoding="utf-8") as f:
         return HTMLResponse(content=f.read())
 
-
+@app.get("/gallery/{gallery_id}", response_class=HTMLResponse)
+def serve_gallery(gallery_id: str):
+    with open(os.path.join(STATIC_DIR, "gallery.html"), "r", encoding="utf-8") as f:
+        return HTMLResponse(content=f.read())
 
 
 

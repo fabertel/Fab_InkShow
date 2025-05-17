@@ -27,6 +27,8 @@
 let currentIndex = 0;
 let artworks = [];
 
+
+
 // 🟢 Load Header
 async function loadHeader() {
     const response = await fetch('/static/header.html');
@@ -50,12 +52,14 @@ async function loadFooter() {
 
 // 🟢 Load Gallery
 async function loadGallery() {
-    const response = await fetch('/static/data.json');
+    const galleryId = window.location.pathname.split('/').pop();
+    const response = await fetch(`/static/data_${galleryId}.json`);
     artworks = await response.json();
     const gallery = document.querySelector('.gallery');
 
     artworks.forEach((art, index) => {
-        const thumbnailPath = art.src.replace('images/', 'static/images/thumbnails/').replace(/(\.\w+)$/, '_TH$1');
+        const baseName = art.filename || art.src.split('/').pop();
+        const thumbnailPath = '/static/images/thumbnails/' + baseName.replace(/(\.[a-zA-Z0-9]+)$/, '_TH$1');
         const imgElement = document.createElement('img');
         imgElement.src = thumbnailPath;
         imgElement.alt = art.title;
@@ -63,8 +67,17 @@ async function loadGallery() {
         gallery.appendChild(imgElement);
     });
 
+    const metaResponse = await fetch('/static/galleries_meta.json');
+    const metaData = await metaResponse.json();
+
+    const meta = metaData[galleryId] || { title: "", text: "" };
+    document.getElementById('gallery-title').textContent = meta.title;
+    document.getElementById('gallery-text').textContent = meta.text;
+
+
     setupModal();
 }
+
 
 // 🟢 Setup Modal
 function setupModal() {
@@ -100,7 +113,9 @@ function setupModal() {
 // 🟢 Show Modal with Artwork Details
 function showModal(index) {
     const art = artworks[index];
-    const fullImagePath = art.src.startsWith("images/") ? "static/" + art.src : art.src;
+    const fullImagePath = '/static/' + art.src;
+
+
     const modal = document.querySelector('.modal');
 
     if (!modal) return; // Ensure modal exists

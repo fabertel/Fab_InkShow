@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fab Inkshow</title>
+    <link id="stylesheet" rel="stylesheet" href="/static/styles/style_beta.css">
+    <link rel="stylesheet" href="/static/styles/global.css">
+    <link rel="icon" href="/static/styles/favicons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<!-- Load Header -->
+
+<div class="gallery-header">
+  <h2 id="gallery-title"></h2>
+  <p id="gallery-text"></p>
+</div>
+
+<div id="header-container"></div>
+
+<div class="gallery"></div>
+
+<!-- ✅ Modal for Image Details -->
+<div class="modal">
+    <div class="modal-content">
+        <img id="modal-image" class="modal-image" src="" alt="">
+        <div class="modal-details">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p id="modal-size"></p>
+            <p id="modal-price"></p>
+            <p id="modal-availability"></p>
+            <p id="modal-category"></p>
+            <p id="modal-medium"></p>
+            <p id="modal-tags"></p>
+            <p id="modal-date"></p>
+            <!-- <p id="modal-style"></p>
+            <p id="modal-color-style"></p>
+            <p id="modal-emotions"></p> -->
+        </div>
+        <button class="modal-close">Close</button> <!-- ✅ Added close button -->
+    </div>
+</div>
+
+<!-- Load Footer -->
+<div id="footer-container"></div>
+
+<!-- ✅ External JS -->
+<script src="/static/scripts/script.js"></script>
+
+</body>
+</html>
