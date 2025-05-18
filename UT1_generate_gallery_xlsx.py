@@ -6,16 +6,16 @@ from math import gcd
 
 # === Percorsi ===
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-image_folder = os.path.join(BASE_DIR, "static", "images", "DIGITAL")  # ← cambia se serve
-output_excel = os.path.join(BASE_DIR, "gallery_json_digi.xlsx")
+image_folder = os.path.join(BASE_DIR, "static", "images", "Projects")  # ← cambia se serve
+output_excel = os.path.join(BASE_DIR, "gallery_Projs_digi.xlsx")
 
 # === Parametri predefiniti ===
 default_price = "EUR 55"
 default_availability = "Available"
 default_category = "digi"
 default_medium = "Digitale"
-default_tags = "auto"
-default_description = "TODO"
+default_tags = "Projects"
+default_description = "Projects"
 
 def get_ratio(width, height):
     r = gcd(width, height)

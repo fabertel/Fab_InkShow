@@ -1,14 +1,14 @@
 {
   "trad": {
-    "title": "Traditional Gallery",
-    "text": "Ink, watercolor, pencil... this is where everything began. Handmade with love and occasional smudges!"
+    "title": "Colors",
+    "text": "A stroke of color, then some ink on top  ... zero planning!"
   },
   "digi": {
     "title": "Digital Gallery",
     "text": "Pixels, layers, and a bit of magic. Here live my weirdest creatures and experimental sketches!"
   },
-  "animali": {
-    "title": "Fantastic Beasts",
-    "text": "From flying hippos to sneaky birds, welcome to the zoo of imagination. No feeding allowed!"
+  "proj": {
+    "title": "Books & Stories",
+    "text": "Here dwell curious foxes, rebellious hens, and gentle dragons, my self-published children's books, illustrated stories concepts, and playful art books. Handmade, heart-filled, and full of imagination!"
   }
 }

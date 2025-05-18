@@ -3,8 +3,10 @@ from PIL import Image
 
 def create_thumbnails(thumbnail_size=(512, 512)):
     # Define paths
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    
     script_folder = os.path.dirname(os.path.abspath(__file__))
-    images_folder = os.path.join(script_folder, "static", "images")  # ✅ Use /static/images/
+    images_folder = os.path.join(BASE_DIR, "static", "images", "Projects")  # ← cambia se serve
     thumbnails_folder = os.path.join(images_folder, "thumbnails")  # ✅ Save in /static/images/thumbnails/
 
     # Create the "thumbnails" folder if it doesn't exist

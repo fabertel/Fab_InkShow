@@ -3,8 +3,8 @@ import os
 import json
 
 # === CONFIGURA QUI I FILE ===
-INPUT_XLSX = "gallery_json_trasizionale.xlsx"
-OUTPUT_JSON = "static/data_trad.json"
+INPUT_XLSX = "gallery_Projs_digi.xlsx"
+OUTPUT_JSON = "static/data_proj.json"
 
 # Get the current directory where the script is located
 current_dir = os.path.dirname(os.path.abspath(__file__))
