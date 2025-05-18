@@ -144,9 +144,31 @@ function showModal(index) {
 document.addEventListener("DOMContentLoaded", () => {
     loadHeader();
     loadFooter();
-    loadGallery();
-});
 
+    // Determina se siamo su una pagina con titolo e testo dinamici
+    const titleEl = document.getElementById("gallery-title");
+    const textEl = document.getElementById("gallery-text");
+
+    if (titleEl && textEl) {
+        // Estrae "video" o altro ID dalla path
+        let galleryId = window.location.pathname.split('/').pop();
+        if (galleryId === "videos.html" || galleryId === "videos") galleryId = "video";
+
+        fetch('/static/galleries_meta.json')
+            .then(res => res.json())
+            .then(meta => {
+                const data = meta[galleryId];
+                if (data) {
+                    titleEl.textContent = data.title;
+                    textEl.textContent = data.text;
+                }
+            });
+    }
+
+    if (document.querySelector('.gallery')) {
+        loadGallery(); // solo nelle pagine con galleria immagini
+    }
+});
 
 
 // 🟢 Enable Fullscreen on Image Click

@@ -1,11 +1,14 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse
 from fastapi.responses import JSONResponse  # ✅ Import JSONResponse
 import subprocess  # ✅ Import subprocess to run the script
 import markdown
 import os
+import re
 from fastapi import Request
+
 
 app = FastAPI()
 
@@ -59,9 +62,40 @@ def get_markdown(page: str, request: Request):
     return load_markdown(page)
 
 
+@app.get("/videos", response_class=FileResponse)
+async def videos_page():
+    return FileResponse("static/videos.html", media_type="text/html")
 
+def extract_date_key(filename):
+    match = re.match(r'^(\d{6})', filename)
+    return match.group(1) if match else "000000"  # fallback minimo
+
+
+
+
+
+
+def extract_date_int(filename):
+    match = re.search(r'(\d{6})', filename)
+    return int(match.group(1)) if match else 0
+
+@app.get("/api/videos")
+async def list_videos():
+    video_dir = "static/videos"
+    files = os.listdir(video_dir)
+    mp4_files = [f for f in files if f.lower().endswith(".mp4")]
+    
+    # Ordine alfabetico decrescente standard (dalla Z alla A)
+    sorted_files = sorted(mp4_files, key=str.lower, reverse=True)
+    
+    print("🎞️ Sorted video list (standard descending alphabetical order):")
+    for f in sorted_files:
+        print(f" - {f}")
+    
+    return JSONResponse(sorted_files)
 
 # Serve the generic page.html
+
 @app.get("/page", response_class=HTMLResponse)
 def get_page():
     with open(os.path.join(STATIC_DIR, "page.html"), "r", encoding="utf-8") as f:
@@ -85,6 +119,8 @@ async def regenerate_json():
     except Exception as e:
         return JSONResponse(content={"message": f"❌ Exception: {str(e)}"}, status_code=500)
     
+
+
 # ✅ Route to serve the latest JSON file
 @app.get("/data.json")
 async def get_json():

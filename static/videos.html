@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fab Inkshow – Videos</title>
+  <link id="stylesheet" rel="stylesheet" href="/static/styles/style_beta.css">
+  <link rel="stylesheet" href="/static/styles/global.css">
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+    }
+
+.video-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+  </style>
+</head>
+<body>
+
+
+
+  <!-- Load Header -->
+<div id="header-container"></div>
+
+  <div class="gallery-header">
+      <h2 id="gallery-title"></h2>
+      <p id="gallery-text"></p>
+  </div>
+
+<div class="container">
+  <div class="content video-container">
+
+<div class="content video-container" id="video-list"></div>
+
+
+  </div>
+</div>
+
+  <script>
+    const videos = document.querySelectorAll("video");
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    }, {
+      threshold: 0.6
+    });
+
+    videos.forEach(video => {
+      observer.observe(video);
+    });
+  </script>
+
+
+<!-- Load Footer -->
+<div id="footer-container"></div>
+
+
+<script>
+fetch("/api/videos")
+  .then(res => res.json())
+  .then(videos => {
+    const container = document.getElementById("video-list");
+
+    videos.forEach(file => {
+      const video = document.createElement("video");
+      video.controls = true;         // ✅ Barra visibile
+      video.muted = true;           // ✅ Audio attivo
+      video.loop = true;
+      video.autoplay = true;
+      video.preload = "auto";
+      video.playsInline = true;
+      video.volume = 0.2;            // ✅ Volume al 20%
+      video.style.margin = "40px auto";
+      video.style.display = "block";
+      video.style.width = "100%";
+
+      const source = document.createElement("source");
+      source.src = `/static/videos/${file}`;
+      source.type = "video/mp4";
+
+      video.appendChild(source);
+      container.appendChild(video);
+    });
+
+    // IntersectionObserver → autoplay on focus
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    }, {
+      threshold: 0.6
+    });
+
+    document.querySelectorAll("video").forEach(video => observer.observe(video));
+  });
+</script>
+
+
+
+<!-- ✅ External JS -->
+<script src="/static/scripts/script.js"></script>
+
+</body>
+</html>
